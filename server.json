@@ -34,7 +34,7 @@
     {
       "id": 2,
       "title": "Expresso Americano",
-      "image": "express-americano.png",
+      "image": "expresso-americano.png",
       "description": "Expresso diluído, menos intenso que o tradicional",
       "price": "6,90",
       "categories": [1]
