@@ -1,18 +1,16 @@
 import styled from 'styled-components'
+import * as ToggleGroup from '@radix-ui/react-toggle-group'
 
-export const FilterContainer = styled.div`
+export const FilterContainer = styled(ToggleGroup.Root)`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem 0.5rem;
 `
 
-interface FilterTagProps {
-  active?: boolean
-}
-
-export const FilterTag = styled.label<FilterTagProps>`
+export const FilterTag = styled(ToggleGroup.Item)`
   color: ${({ theme }) => theme.colors.primary700};
+  background-color: transparent;
   font-size: ${({ theme }) => theme.fontSize.xs};
   font-weight: 700;
   line-height: normal;
@@ -21,12 +19,8 @@ export const FilterTag = styled.label<FilterTagProps>`
   border: 1px solid ${({ theme }) => theme.colors.primary500};
   border-radius: 999px;
   padding: 0.375rem 0.75rem;
-  cursor: pointer;
 
-  ${({ active, theme }) =>
-    active && `background-color: ${theme.colors.primary100}`};
-
-  input {
-    display: none;
+  &[data-state='on'] {
+    background-color: ${({ theme }) => theme.colors.primary100};
   }
 `
