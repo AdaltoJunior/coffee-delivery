@@ -2,9 +2,12 @@ import styled from 'styled-components'
 
 export const CoffeeCardContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.gray100};
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem;
   border-radius: 6px 36px;
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
 `
 
 export const CardHeader = styled.div`
@@ -25,7 +28,7 @@ export const TagsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.5rem 0.25rem;
 `
 
 export const Tag = styled.span`
@@ -34,7 +37,7 @@ export const Tag = styled.span`
   padding: 4px 8px;
   border-radius: 999px;
 
-  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-size: ${({ theme }) => theme.fontSize.xxs};
   font-weight: 700;
   text-transform: uppercase;
   line-height: normal;
@@ -56,6 +59,7 @@ export const CardFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  margin-top: auto;
 `
 
 export const Price = styled.div`

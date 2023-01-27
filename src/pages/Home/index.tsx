@@ -1,3 +1,5 @@
+import { useCoffees } from '../../hooks/useCoffees'
+
 import { Hero } from '../../components/Hero'
 import { Filter } from '../../components/Filter'
 import { Heading } from '../../components/Heading'
@@ -7,6 +9,8 @@ import { CoffeeCard } from '../../components/CoffeeCard'
 import { CoffeeList, CoffeeSection, CoffeeSectionHeader } from './styles'
 
 export function Home() {
+  const { coffees } = useCoffees()
+
   return (
     <main>
       <Hero />
@@ -19,8 +23,8 @@ export function Home() {
           </CoffeeSectionHeader>
 
           <CoffeeList>
-            {Array.from({ length: 14 }).map((_, index) => (
-              <CoffeeCard key={index} />
+            {coffees.map((coffee) => (
+              <CoffeeCard key={coffee.id} coffee={coffee} />
             ))}
           </CoffeeList>
         </Container>
