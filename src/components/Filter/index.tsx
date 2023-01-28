@@ -1,19 +1,15 @@
 import { FilterContainer, FilterTag } from './styles'
 
-const categories = [
-  { id: 1, name: 'Tradicional' },
-  { id: 2, name: 'Especial' },
-  { id: 3, name: 'Com leite' },
-  { id: 4, name: 'Acoólico' },
-  { id: 5, name: 'Gelado' },
-]
+interface FilterProps {
+  data: { id: number; title: string }[]
+}
 
-export function Filter() {
+export function Filter({ data }: FilterProps) {
   return (
     <FilterContainer type="multiple">
-      {categories.map((category) => (
-        <FilterTag key={category.id} value={`${category.id}`}>
-          {category.name}
+      {data.map((item) => (
+        <FilterTag key={item.id} value={`${item.id}`}>
+          {item.title}
         </FilterTag>
       ))}
     </FilterContainer>

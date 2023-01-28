@@ -9,7 +9,7 @@ import { CoffeeCard } from '../../components/CoffeeCard'
 import { CoffeeList, CoffeeSection, CoffeeSectionHeader } from './styles'
 
 export function Home() {
-  const { coffees } = useCoffees()
+  const { coffees, categories } = useCoffees()
 
   return (
     <main>
@@ -19,7 +19,7 @@ export function Home() {
         <Container>
           <CoffeeSectionHeader>
             <Heading fontWeight="extraBold">Nossos cafés</Heading>
-            <Filter />
+            <Filter data={categories} />
           </CoffeeSectionHeader>
 
           <CoffeeList>
