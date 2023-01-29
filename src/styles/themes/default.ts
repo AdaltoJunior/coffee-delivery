@@ -9,6 +9,7 @@ export const defaultTheme = {
     secondary700: '#4B2995',
 
     background: '#FAFAFA',
+    danger: '#ef4444',
 
     gray100: '#F3F2F2',
     gray200: '#EDEDED',

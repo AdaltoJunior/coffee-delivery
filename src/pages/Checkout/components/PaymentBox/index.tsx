@@ -1,11 +1,14 @@
-import { Bank, CreditCard, CurrencyDollar, Money } from 'phosphor-react'
 import { useTheme } from 'styled-components'
+import { useFormContext, Controller } from 'react-hook-form'
+import { Bank, CreditCard, CurrencyDollar, Money } from 'phosphor-react'
+
+import { CheckoutFormData } from '../..'
 
 import { BoxHeader } from '../../styles'
-
 import { PaymentBoxContainer, MethodButton, Methods } from './styles'
 
 export function PaymentBox() {
+  const { control } = useFormContext<CheckoutFormData>()
   const theme = useTheme()
 
   return (
@@ -20,19 +23,25 @@ export function PaymentBox() {
         </div>
       </BoxHeader>
 
-      <Methods>
-        <MethodButton value="Cartão de Crédito">
-          <CreditCard /> Cartão de Crédito
-        </MethodButton>
+      <Controller
+        control={control}
+        name="pagamento"
+        render={({ field }) => (
+          <Methods onValueChange={field.onChange} value={field.value}>
+            <MethodButton value="Cartão de Crédito">
+              <CreditCard /> Cartão de Crédito
+            </MethodButton>
 
-        <MethodButton value="Cartão de Débito">
-          <Bank /> Cartão de Débito
-        </MethodButton>
+            <MethodButton value="Cartão de Débito">
+              <Bank /> Cartão de Débito
+            </MethodButton>
 
-        <MethodButton value="Dinheiro">
-          <Money /> Dinheiro
-        </MethodButton>
-      </Methods>
+            <MethodButton value="Dinheiro">
+              <Money /> Dinheiro
+            </MethodButton>
+          </Methods>
+        )}
+      />
     </PaymentBoxContainer>
   )
 }

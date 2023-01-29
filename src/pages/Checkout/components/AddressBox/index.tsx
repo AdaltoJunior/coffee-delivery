@@ -1,3 +1,4 @@
+import { useFormContext } from 'react-hook-form'
 import { MapPinLine } from 'phosphor-react'
 import { useTheme } from 'styled-components'
 
@@ -6,8 +7,14 @@ import { Input } from '../../../../components/Input'
 import { BoxHeader } from '../../styles'
 import { InputContainer, InputRow, AddressBoxContainer } from './styles'
 
+import { CheckoutFormData } from '../..'
+
 export function AddressBox() {
   const theme = useTheme()
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<CheckoutFormData>()
 
   return (
     <AddressBoxContainer>
@@ -21,27 +28,62 @@ export function AddressBox() {
 
       <InputContainer>
         <InputRow>
-          <Input type="text" placeholder="CEP" required />
+          <Input
+            type="text"
+            placeholder="CEP"
+            {...register('cep')}
+            error={errors.cep?.message}
+          />
         </InputRow>
 
         <InputRow>
-          <Input className="fill" type="text" placeholder="Rua" required />
+          <Input
+            className="fill"
+            type="text"
+            placeholder="Rua"
+            {...register('rua')}
+            error={errors.rua?.message}
+          />
         </InputRow>
 
         <InputRow>
-          <Input type="text" placeholder="Número" required />
-          <Input className="fill" type="text" placeholder="Complemento" />
+          <Input
+            type="text"
+            placeholder="Número"
+            {...register('numero')}
+            error={errors.numero?.message}
+          />
+          <Input
+            className="fill"
+            type="text"
+            placeholder="Complemento"
+            optional
+            {...register('complemento')}
+            error={errors.complemento?.message}
+          />
         </InputRow>
 
         <InputRow>
-          <Input type="text" placeholder="Bairro" required />
-          <Input className="fill" type="text" placeholder="Cidade" required />
+          <Input
+            type="text"
+            placeholder="Bairro"
+            {...register('bairro')}
+            error={errors.bairro?.message}
+          />
+          <Input
+            className="fill"
+            type="text"
+            placeholder="Cidade"
+            {...register('cidade')}
+            error={errors.cidade?.message}
+          />
           <Input
             className="small"
             type="text"
-            placeholder="UF"
-            required
             maxLength={2}
+            placeholder="UF"
+            {...register('uf')}
+            error={errors.uf?.message}
           />
         </InputRow>
       </InputContainer>

@@ -1,6 +1,18 @@
 import styled from 'styled-components'
 
-export const InputContainer = styled.label`
+export const InputContainer = styled.div`
+  p {
+    color: ${({ theme }) => theme.colors.danger};
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    padding: 0.25rem;
+  }
+`
+
+interface StyledInputProps {
+  hasError: boolean
+}
+
+export const StyledInput = styled.label<StyledInputProps>`
   background-color: ${({ theme }) => theme.colors.gray200};
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 4px;
@@ -38,4 +50,6 @@ export const InputContainer = styled.label`
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray500};
   }
+
+  ${({ hasError, theme }) => hasError && `border-color: ${theme.colors.danger}`}
 `
