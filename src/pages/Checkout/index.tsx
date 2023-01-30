@@ -11,7 +11,7 @@ import { CoffeesBox } from './components/CoffeesBox'
 import { CheckoutContainer } from './styles'
 
 const checkoutFormValidationSchema = zod.object({
-  cep: zod.string().min(1, 'Informe o cep'),
+  cep: zod.string({ required_error: 'Informe o cep' }).min(1, 'Informe o cep'),
   rua: zod.string().min(1, 'Informe a rua'),
   numero: zod.string().min(1, 'Informe o número'),
   complemento: zod.string().optional(),

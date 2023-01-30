@@ -1,4 +1,5 @@
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, Controller } from 'react-hook-form'
+import { useIMask, IMask } from 'react-imask'
 import { MapPinLine } from 'phosphor-react'
 import { useTheme } from 'styled-components'
 
@@ -8,13 +9,55 @@ import { BoxHeader } from '../../styles'
 import { InputContainer, InputRow, AddressBoxContainer } from './styles'
 
 import { CheckoutFormData } from '../..'
+import axios from 'axios'
+
+interface MaskOptions {
+  mask: string
+}
+
+interface CepResponse {
+  uf: string
+  bairro: string
+  logradouro: string
+  localidade: string
+  erro: boolean
+}
 
 export function AddressBox() {
   const theme = useTheme()
+
   const {
     register,
+    control,
+    setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useFormContext<CheckoutFormData>()
+
+  const cepMask = useIMask({ mask: '00000-000' }, { onComplete: fetchCep })
+
+  async function fetchCep(cep: string, maskRef: IMask.InputMask<MaskOptions>) {
+    clearErrors('cep')
+
+    const unmaskedCep = maskRef.unmaskedValue
+
+    const response = await axios.get<CepResponse>(
+      `https://viacep.com.br/ws/${unmaskedCep}/json/`,
+    )
+
+    if (response.data.erro) {
+      setError('cep', { type: 'custom', message: 'CEP Inválido' })
+      return
+    }
+
+    const { logradouro, bairro, localidade, uf } = response.data
+
+    setValue('rua', logradouro)
+    setValue('bairro', bairro)
+    setValue('cidade', localidade)
+    setValue('uf', uf)
+  }
 
   return (
     <AddressBoxContainer>
@@ -28,11 +71,22 @@ export function AddressBox() {
 
       <InputContainer>
         <InputRow>
-          <Input
-            type="text"
-            placeholder="CEP"
-            {...register('cep')}
-            error={errors.cep?.message}
+          <Controller
+            control={control}
+            name="cep"
+            render={({ field }) => (
+              <Input
+                type="text"
+                placeholder="CEP"
+                ref={cepMask.ref}
+                onChange={() =>
+                  field.onChange({
+                    target: { value: cepMask.unmaskedValue },
+                  })
+                }
+                error={errors.cep?.message}
+              />
+            )}
           />
         </InputRow>
 
