@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { ShoppingCartSimple } from 'phosphor-react'
 
+import { useCart } from '../../hooks/useCart'
 import { CoffeeData } from '../../hooks/useCoffees'
 
 import { Button } from '../Button'
@@ -24,6 +26,22 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
+  const [amount, setAmount] = useState<number>(1)
+  const { addCoffee } = useCart()
+
+  function handleIncreaseAmount() {
+    setAmount((prevAmount) => prevAmount + 1)
+  }
+
+  function handleDecreaseAmount() {
+    if (amount <= 1) return
+    setAmount((prevAmount) => prevAmount - 1)
+  }
+
+  function handleCartButtonClick() {
+    addCoffee({ id: coffee.id, amount })
+  }
+
   return (
     <CoffeeCardContainer>
       <CardHeader>
@@ -47,8 +65,16 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
           <small>R$</small> <span>{coffee.price}</span>
         </Price>
         <Actions>
-          <Counter />
-          <Button iconButton variant="secondary-dark">
+          <Counter
+            value={amount}
+            onPlusClick={handleIncreaseAmount}
+            onMinusClick={handleDecreaseAmount}
+          />
+          <Button
+            iconButton
+            variant="secondary-dark"
+            onClick={handleCartButtonClick}
+          >
             <ShoppingCartSimple weight="fill" size={22} />
           </Button>
         </Actions>

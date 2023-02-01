@@ -23,7 +23,7 @@ export function CoffeesBox() {
         <div>
           <h3>Expresso Tradicional</h3>
           <CoffeeActions>
-            <Counter />
+            <Counter value={1} onMinusClick={() => {}} onPlusClick={() => {}} />
             <CoffeeButton type="button">
               <Trash /> <span>Remover</span>
             </CoffeeButton>
