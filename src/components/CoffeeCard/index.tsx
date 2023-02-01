@@ -27,20 +27,20 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
-  const [amount, setAmount] = useState<number>(1)
+  const [quantity, setQuantity] = useState<number>(1)
   const { addCoffee } = useCart()
 
-  function handleIncreaseAmount() {
-    setAmount((prevAmount) => prevAmount + 1)
+  function handleIncreaseQuantity() {
+    setQuantity((prevQuantity) => prevQuantity + 1)
   }
 
-  function handleDecreaseAmount() {
-    if (amount <= 1) return
-    setAmount((prevAmount) => prevAmount - 1)
+  function handleDecreaseQuantity() {
+    if (quantity <= 1) return
+    setQuantity((prevQuantity) => prevQuantity - 1)
   }
 
   function handleCartButtonClick() {
-    addCoffee({ id: coffee.id, amount })
+    addCoffee({ id: coffee.id, quantity })
     toast.success(`${coffee.title} foi adicionado ao carrinho!`)
   }
 
@@ -68,9 +68,9 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
         </Price>
         <Actions>
           <Counter
-            value={amount}
-            onPlusClick={handleIncreaseAmount}
-            onMinusClick={handleDecreaseAmount}
+            value={quantity}
+            onPlusClick={handleIncreaseQuantity}
+            onMinusClick={handleDecreaseQuantity}
           />
           <Button
             iconButton

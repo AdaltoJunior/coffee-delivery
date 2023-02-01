@@ -6,7 +6,7 @@ interface CartProviderProps {
 
 interface CartCoffeeData {
   id: number
-  amount: number
+  quantity: number
 }
 
 interface CartContextData {
@@ -31,7 +31,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
     const newCartCoffees = [...cartCoffees]
 
-    newCartCoffees[coffeeIndexInCart].amount += coffeeData.amount
+    newCartCoffees[coffeeIndexInCart].quantity += coffeeData.quantity
 
     setCartCoffees(newCartCoffees)
   }
