@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { ShoppingCartSimple } from 'phosphor-react'
 
 import { useCart } from '../../hooks/useCart'
@@ -40,6 +41,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
 
   function handleCartButtonClick() {
     addCoffee({ id: coffee.id, amount })
+    toast.success(`${coffee.title} foi adicionado ao carrinho!`)
   }
 
   return (

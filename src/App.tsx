@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
 import { CartProvider } from './contexts/CartContext'
 
@@ -6,6 +7,8 @@ import { Router } from './Router'
 
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
+
+import 'react-toastify/dist/ReactToastify.min.css'
 
 export function App() {
   return (
@@ -16,6 +19,7 @@ export function App() {
         </BrowserRouter>
       </CartProvider>
 
+      <ToastContainer />
       <GlobalStyle />
     </ThemeProvider>
   )
