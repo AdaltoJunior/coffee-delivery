@@ -3,6 +3,6 @@ export interface CoffeeDTO {
   title: string
   image: string
   description: string
-  price: string
+  price: number
   categories_ids: number[]
 }

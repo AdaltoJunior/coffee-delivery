@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 
-import { Heading } from '../../components/Heading'
+import { useCart } from '../../hooks/useCart'
 
+import { Heading } from '../../components/Heading'
 import { AddressBox } from './components/AddressBox'
 import { PaymentBox } from './components/PaymentBox'
 import { CoffeesBox } from './components/CoffeesBox'
@@ -31,8 +33,12 @@ export function Checkout() {
     },
   })
 
-  function handleChekoutFormSubmit(data: CheckoutFormData) {
-    console.log(data)
+  const navigate = useNavigate()
+  const { emptyCart } = useCart()
+
+  function handleChekoutFormSubmit(formData: CheckoutFormData) {
+    navigate('/success', { state: formData })
+    emptyCart()
   }
 
   return (

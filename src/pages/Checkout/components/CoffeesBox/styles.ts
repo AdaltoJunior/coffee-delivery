@@ -75,4 +75,10 @@ export const TotalTextWrapper = styled.div`
 export const ButtonSubmit = styled(Button)`
   padding: 0.75rem;
   width: 100%;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${({ theme }) => theme.colors.gray400};
+    transform: initial;
+  }
 `

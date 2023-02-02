@@ -4,6 +4,7 @@ import { ShoppingCartSimple } from 'phosphor-react'
 
 import { useCart } from '../../hooks/useCart'
 import { CoffeeData } from '../../hooks/useCoffees'
+import { priceFormat } from '../../utils/priceFormat'
 
 import { Button } from '../Button'
 import { Heading } from '../Heading'
@@ -64,7 +65,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
 
       <CardFooter>
         <Price>
-          <small>R$</small> <span>{coffee.price}</span>
+          <small>R$</small> <span>{priceFormat(coffee.price)}</span>
         </Price>
         <Actions>
           <Counter

@@ -1,7 +1,12 @@
+import { useEffect, useState } from 'react'
 import { Trash } from 'phosphor-react'
-import { Counter } from '../../../../components/Counter'
 
-import coffeeImage from '../../../../assets/coffee-01.png'
+import { api } from '../../../../services/api'
+import { useCart } from '../../../../hooks/useCart'
+import { CoffeeDTO } from '../../../../dtos/CoffeeDTO'
+import { priceFormat } from '../../../../utils/priceFormat'
+
+import { Counter } from '../../../../components/Counter'
 
 import {
   Coffee,
@@ -14,43 +19,108 @@ import {
   CoffeesBoxContainer,
 } from './styles'
 
+interface CheckoutCoffeeData extends CoffeeDTO {
+  quantity: number
+}
+
+const DELIVERY_PRICE = 3.5
+
 export function CoffeesBox() {
+  const [checkoutCoffees, setCheckoutCoffees] = useState<CheckoutCoffeeData[]>(
+    [],
+  )
+
+  const {
+    cartCoffees,
+    getCoffeeQuantity,
+    addCoffee,
+    subtractOne,
+    removeCoffee,
+  } = useCart()
+
+  const itemsTotal = checkoutCoffees.reduce((acc, checkoutCoffee) => {
+    return acc + checkoutCoffee.price
+  }, 0)
+
+  useEffect(() => {
+    if (cartCoffees.length <= 0) {
+      return setCheckoutCoffees([])
+    }
+
+    async function fetchCoffees() {
+      const query = cartCoffees.reduce((acc, cartCoffee) => {
+        return acc === '' ? `id=${cartCoffee.id}` : `${acc}&id=${cartCoffee.id}`
+      }, '')
+
+      const response = await api.get<CoffeeDTO[]>(`/coffees?${query}`)
+
+      const newCheckoutCoffees = response.data.map((coffee) => {
+        const quantity = getCoffeeQuantity(coffee.id)
+
+        return {
+          ...coffee,
+          quantity,
+          price: coffee.price * quantity,
+        }
+      })
+
+      setCheckoutCoffees(newCheckoutCoffees)
+    }
+
+    fetchCoffees()
+  }, [cartCoffees, getCoffeeQuantity])
+
   return (
     <CoffeesBoxContainer>
-      <Coffee>
-        <img src={coffeeImage} alt="" />
+      {checkoutCoffees.map((checkoutCoffee) => (
+        <Coffee key={checkoutCoffee.id}>
+          <img src={`/src/assets/coffees/${checkoutCoffee.image}`} alt="" />
 
-        <div>
-          <h3>Expresso Tradicional</h3>
-          <CoffeeActions>
-            <Counter value={1} onMinusClick={() => {}} onPlusClick={() => {}} />
-            <CoffeeButton type="button">
-              <Trash /> <span>Remover</span>
-            </CoffeeButton>
-          </CoffeeActions>
-        </div>
+          <div>
+            <h3>{checkoutCoffee.title}</h3>
+            <CoffeeActions>
+              <Counter
+                value={checkoutCoffee.quantity}
+                onMinusClick={() => subtractOne(checkoutCoffee.id)}
+                onPlusClick={() =>
+                  addCoffee({ id: checkoutCoffee.id, quantity: 1 })
+                }
+              />
+              <CoffeeButton
+                type="button"
+                onClick={() => removeCoffee(checkoutCoffee.id)}
+              >
+                <Trash /> <span>Remover</span>
+              </CoffeeButton>
+            </CoffeeActions>
+          </div>
 
-        <CoffeePrice>R$ 9,90</CoffeePrice>
-      </Coffee>
+          <CoffeePrice>R$ {priceFormat(checkoutCoffee.price)}</CoffeePrice>
+        </Coffee>
+      ))}
 
       <Total>
         <TotalTextWrapper>
           <p>Total de itens</p>
-          <p>R$ 29,70</p>
+          <p>R$ {priceFormat(itemsTotal)}</p>
         </TotalTextWrapper>
 
         <TotalTextWrapper>
           <p>Entrega</p>
-          <p>R$ 3,50</p>
+          <p>R$ {priceFormat(DELIVERY_PRICE)}</p>
         </TotalTextWrapper>
 
         <TotalTextWrapper>
           <strong>Total</strong>
-          <strong>R$ 33,20</strong>
+          <strong>R$ {priceFormat(itemsTotal + DELIVERY_PRICE)}</strong>
         </TotalTextWrapper>
       </Total>
 
-      <ButtonSubmit type="submit" variant="primary">
+      <ButtonSubmit
+        type="submit"
+        variant="primary"
+        disabled={checkoutCoffees.length <= 0}
+      >
         Confirmar Pedido
       </ButtonSubmit>
     </CoffeesBoxContainer>

@@ -1,4 +1,7 @@
+import { Navigate, useLocation } from 'react-router-dom'
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
+
+import { CheckoutFormData } from '../Checkout'
 
 import { Icon } from '../../components/Icon'
 import { Heading } from '../../components/Heading'
@@ -14,7 +17,17 @@ import {
   Info,
 } from './styles'
 
+interface LocationData {
+  state: CheckoutFormData
+}
+
 export function Success() {
+  const { state } = useLocation() as LocationData
+
+  if (!state) {
+    return <Navigate to="/" />
+  }
+
   return (
     <SuccessContainer>
       <Container>
@@ -29,9 +42,9 @@ export function Success() {
               <Icon icon={MapPin} weight="fill" variant="secondary" />
               <div>
                 <p>
-                  Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                  Entrega em <strong>{`${state.rua}, ${state.numero}`}</strong>
                 </p>
-                <p>Farrapos - Porto Alegre, RS</p>
+                <p>{`${state.bairro} - ${state.cidade}, ${state.uf}`}</p>
               </div>
             </Info>
 
@@ -51,7 +64,7 @@ export function Success() {
               />
               <div>
                 <p>Pagamento na entrega</p>
-                <strong>Cartão de Crédito</strong>
+                <strong>{state.pagamento}</strong>
               </div>
             </Info>
           </InfoContainer>
