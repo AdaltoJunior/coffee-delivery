@@ -13,8 +13,10 @@ export function useCoffees() {
   const [categories, setCategories] = useState<CategoryDTO[]>([])
 
   async function fetchCoffees() {
-    const coffeesResponse = await api.get<CoffeeDTO[]>('/coffees')
-    const categoriesResponse = await api.get<CategoryDTO[]>('/categories')
+    const [coffeesResponse, categoriesResponse] = await Promise.all([
+      api.get<CoffeeDTO[]>('/coffees'),
+      api.get<CategoryDTO[]>('/categories'),
+    ])
 
     const coffeesTransformed = coffeesResponse.data.map((coffee) => {
       const coffeeCategories = categoriesResponse.data.filter((category) =>
