@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { api } from '../services/api'
 
 import { CoffeeDTO } from '../dtos/CoffeeDTO'
@@ -13,21 +14,25 @@ export function useCoffees() {
   const [categories, setCategories] = useState<CategoryDTO[]>([])
 
   async function fetchCoffees() {
-    const [coffeesResponse, categoriesResponse] = await Promise.all([
-      api.get<CoffeeDTO[]>('/coffees'),
-      api.get<CategoryDTO[]>('/categories'),
-    ])
+    try {
+      const [coffeesResponse, categoriesResponse] = await Promise.all([
+        api.get<CoffeeDTO[]>('/coffees'),
+        api.get<CategoryDTO[]>('/categories'),
+      ])
 
-    const coffeesTransformed = coffeesResponse.data.map((coffee) => {
-      const coffeeCategories = categoriesResponse.data.filter((category) =>
-        coffee.categories_ids.includes(category.id),
-      )
+      const coffeesTransformed = coffeesResponse.data.map((coffee) => {
+        const coffeeCategories = categoriesResponse.data.filter((category) =>
+          coffee.categories_ids.includes(category.id),
+        )
 
-      return { ...coffee, categories: coffeeCategories }
-    })
+        return { ...coffee, categories: coffeeCategories }
+      })
 
-    setCategories(categoriesResponse.data)
-    setCoffees(coffeesTransformed)
+      setCategories(categoriesResponse.data)
+      setCoffees(coffeesTransformed)
+    } catch (error) {
+      toast.error('Erro! Não foi possível carregar a lista de cafés.')
+    }
   }
 
   useEffect(() => {
