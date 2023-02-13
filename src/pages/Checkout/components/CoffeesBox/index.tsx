@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { Trash } from 'phosphor-react'
 
 import { api } from '../../../../services/api'
@@ -48,23 +49,31 @@ export function CoffeesBox() {
     }
 
     async function fetchCoffees() {
-      const query = cartCoffees.reduce((acc, cartCoffee) => {
-        return acc === '' ? `id=${cartCoffee.id}` : `${acc}&id=${cartCoffee.id}`
-      }, '')
+      try {
+        const query = cartCoffees.reduce((acc, cartCoffee) => {
+          return acc === ''
+            ? `id=${cartCoffee.id}`
+            : `${acc}&id=${cartCoffee.id}`
+        }, '')
 
-      const response = await api.get<CoffeeDTO[]>(`/coffees?${query}`)
+        const response = await api.get<CoffeeDTO[]>(`/coffees?${query}`)
 
-      const newCheckoutCoffees = response.data.map((coffee) => {
-        const quantity = getCoffeeQuantity(coffee.id)
+        const newCheckoutCoffees = response.data.map((coffee) => {
+          const quantity = getCoffeeQuantity(coffee.id)
 
-        return {
-          ...coffee,
-          quantity,
-          price: coffee.price * quantity,
-        }
-      })
+          return {
+            ...coffee,
+            quantity,
+            price: coffee.price * quantity,
+          }
+        })
 
-      setCheckoutCoffees(newCheckoutCoffees)
+        setCheckoutCoffees(newCheckoutCoffees)
+      } catch (error) {
+        toast.error(
+          'Ocorreu um erro durante esta ação, tente novamente mais tarde!',
+        )
+      }
     }
 
     fetchCoffees()
