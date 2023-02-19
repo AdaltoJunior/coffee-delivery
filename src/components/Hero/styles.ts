@@ -10,16 +10,15 @@ export const HeroContainer = styled.header`
 
 export const HeroContent = styled.div`
   display: grid;
+  grid-template-columns: minmax(min-content, 600px);
   justify-items: center;
-  gap: 3.5rem;
+  justify-content: center;
+  row-gap: 3.5rem;
   padding-block: 2rem;
 
-  max-width: 600px;
-  margin-inline: auto;
-
   @media (min-width: ${({ theme }) => theme.screens.xl}) {
-    grid-template-columns: 1fr auto;
-    max-width: initial;
+    grid-template-columns: minmax(min-content, 600px) minmax(0, 470px);
+    justify-content: space-between;
     padding-block: 6.25rem;
   }
 `
