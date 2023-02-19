@@ -1,10 +1,11 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { CartStorageGet, CartStorageSave } from '../storage/CartStorage'
 
 interface CartProviderProps {
   children: ReactNode
 }
 
-interface CartCoffeeData {
+export interface CartCoffeeData {
   id: number
   quantity: number
 }
@@ -21,7 +22,8 @@ interface CartContextData {
 export const CartContext = createContext<CartContextData>({} as CartContextData)
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [cartCoffees, setCartCoffees] = useState<CartCoffeeData[]>([])
+  const [cartCoffees, setCartCoffees] =
+    useState<CartCoffeeData[]>(CartStorageGet)
 
   function addCoffee(coffeeData: CartCoffeeData) {
     const coffeeIndexInCart = cartCoffees.findIndex(
@@ -67,6 +69,10 @@ export function CartProvider({ children }: CartProviderProps) {
   function emptyCart() {
     setCartCoffees([])
   }
+
+  useEffect(() => {
+    CartStorageSave(cartCoffees)
+  }, [cartCoffees])
 
   return (
     <CartContext.Provider
