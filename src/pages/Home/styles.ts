@@ -23,4 +23,8 @@ export const CoffeeList = styled.div`
   grid-template-columns: repeat(auto-fit, 16rem);
   justify-content: center;
   gap: 2.5rem 2rem;
+
+  @media (min-width: ${({ theme }) => theme.screens.xl}) {
+    justify-content: start;
+  }
 `

@@ -9,6 +9,7 @@ import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
 
 import 'react-toastify/dist/ReactToastify.min.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export function App() {
   return (

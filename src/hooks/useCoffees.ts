@@ -10,11 +10,14 @@ export interface CoffeeData extends CoffeeDTO {
 }
 
 export function useCoffees() {
+  const [isLoading, setIsLoading] = useState(false)
   const [coffees, setCoffees] = useState<CoffeeData[]>([])
   const [categories, setCategories] = useState<CategoryDTO[]>([])
 
   async function fetchCoffees() {
     try {
+      setIsLoading(true)
+
       const [coffeesResponse, categoriesResponse] = await Promise.all([
         api.get<CoffeeDTO[]>('/coffees'),
         api.get<CategoryDTO[]>('/categories'),
@@ -32,6 +35,8 @@ export function useCoffees() {
       setCoffees(coffeesTransformed)
     } catch (error) {
       toast.error('Erro! Não foi possível carregar a lista de cafés.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -39,5 +44,5 @@ export function useCoffees() {
     fetchCoffees()
   }, [])
 
-  return { coffees, categories }
+  return { coffees, categories, isLoading }
 }
