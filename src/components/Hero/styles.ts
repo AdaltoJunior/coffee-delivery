@@ -5,7 +5,7 @@ import { Heading } from '../Heading'
 import heroBgImage from '../../assets/hero-bg.svg'
 
 export const HeroContainer = styled.header`
-  background: url(${heroBgImage});
+  background: url(${heroBgImage}) no-repeat center center / cover;
 `
 
 export const HeroContent = styled.div`
