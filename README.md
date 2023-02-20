@@ -6,13 +6,13 @@ Segundo desafio da trilha de ReactJS do Ignite da Rocketseat.
 
 ---
 
-## Sobre o desafio
+### Sobre o desafio
 
 O objetivo deste desafio é desenvolver uma aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia.
 
 ---
 
-## Instalação
+### Instalação
 
 Após o download, acesse a pasta do projeto via terminal e execute os comandos:
 
@@ -29,7 +29,7 @@ Este comando executará o Vite e uma mensagem no terminal especificará o endere
 
 ---
 
-## Alguns conceitos trabalhados nesta aplicação
+### Alguns conceitos trabalhados nesta aplicação
 
 - Estados
 - Propriedades
@@ -44,7 +44,7 @@ Este comando executará o Vite e uma mensagem no terminal especificará o endere
 
 ---
 
-## Libs & Techs
+### Libs & Techs
 
 - Axios
 - Vite
