@@ -2,7 +2,7 @@
 
 Segundo desafio da trilha de ReactJS do Ignite da Rocketseat.
 
-![Coffee Delivery](https://user-images.githubusercontent.com/40866255/220006493-485fcb27-a677-497e-bff7-e7f5d1d13c02.jpg)
+<img style="width: 100%" src="https://user-images.githubusercontent.com/40866255/220006493-485fcb27-a677-497e-bff7-e7f5d1d13c02.jpg" />
 
 ---
 
